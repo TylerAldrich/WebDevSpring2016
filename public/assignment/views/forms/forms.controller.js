@@ -2,9 +2,9 @@
     "use strict";
     angular
         .module('FormBuilderApp')
-        .controller("FormController", FormController);
+        .controller("FormsController", FormsController);
 
-    function FormController($scope) {
+    function FormsController($scope) {
 
     }
 })();

@@ -1,8 +1,8 @@
 <div ng-controller="SidebarController" class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-sidebar">
-        <li><a href="../home/home.view.html">Home</a></li>
-        <li><a href="../users/profile.view.html">Profile</a></li>
-        <li><a href="../admin/admin.view.html">Admin</a></li>
-        <li><a href="../forms/forms.view.html">Forms</a></li>
+        <li ng-class="getClass('/home')"><a href="#/">Home</a></li>
+        <li ng-class="getClass('/profile')"><a href="#/profile">Profile</a></li>
+        <li ng-class="getClass('/admin')"><a href="#/admin">Admin</a></li>
+        <li ng-class="getClass('/forms')"><a href="#/forms">Forms</a></li>
     </ul>
 </div>
