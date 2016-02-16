@@ -12,10 +12,10 @@
         <div id="navbar" class="navbar-collapse collapse">
             <!-- Logged In Nav -->
             <ul ng-if="loggedIn" class="nav navbar-nav navbar-right">
-                <li><a href="#">Hi, {{username}}</a></li>
+                <li><a href="#/">Hi, {{username}}</a></li>
                 <li><a href="#/profile">Profile</a></li>
                 <li ng-if="isAdmin"><a href="#/admin">Admin</a></li>
-                <li><a href="#" ng-click="logout()">Logout</a></li>
+                <li><a href="#/" ng-click="logout()">Logout</a></li>
             </ul>
             <!-- Logged Out Nav -->
             <ul ng-if="!loggedIn" class="nav navbar-nav navbar-right">
