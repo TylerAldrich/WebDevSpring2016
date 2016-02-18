@@ -4,14 +4,12 @@
         .module('FormBuilderApp')
         .controller("SidebarController", SidebarController);
 
-    function SidebarController($scope, $location) {
+    function SidebarController($scope) {
 
         $scope.getClass = function(path) {
-            console.log($location.url());
-            console.log(path);
-            if ($location.url() === path) {
+            if ($scope.$location.url() === path) {
                 return 'active';
-            } else if ($location.url() === "/" && path === "/home") {
+            } else if ($scope.$location.url() === "/" && path === "/home") {
                 return 'active';
             }
             return '';

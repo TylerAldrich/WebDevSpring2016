@@ -1,8 +1,8 @@
 <div ng-controller="SidebarController" class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-sidebar">
         <li ng-class="getClass('/home')"><a href="#/">Home</a></li>
-        <li ng-class="getClass('/profile')"><a href="#/profile">Profile</a></li>
-        <li ng-class="getClass('/admin')"><a href="#/admin">Admin</a></li>
-        <li ng-class="getClass('/forms')"><a href="#/forms">Forms</a></li>
+        <li ng-if="loggedIn" ng-class="getClass('/profile')"><a href="#/profile">Profile</a></li>
+        <li ng-if="loggedIn" ng-class="getClass('/forms')"><a href="#/forms">Forms</a></li>
+        <li ng-if="loggedIn && isAdmin" ng-class="getClass('/admin')"><a href="#/admin">Admin</a></li>
     </ul>
 </div>
