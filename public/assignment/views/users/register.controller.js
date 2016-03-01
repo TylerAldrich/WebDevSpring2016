@@ -9,11 +9,12 @@
         $scope.register = function() {
             var user = {};
 
-            user.firstName = $scope.email;
-            user.lastName = $scope.email;
+            user.firstName = "";
+            user.lastName = "";
             user.username = $scope.username;
             user.password = $scope.password;
             user.roles = ["student"];
+            user.email = $scope.email;
 
             if ($scope.username === undefined || $scope.password === undefined || $scope.email === undefined) {
                 $scope.error = "Please fill in all fields!";
@@ -25,7 +26,7 @@
                 UserService.findUserByUsername(user.username, function(foundUser) {
                     if (foundUser === null) {
                         UserService.createUser(user, function() {
-                            $rootScope.username = user.username;
+                            $rootScope.user = user;
                             $rootScope.loggedIn = true;
                             $scope.$location.path("/profile");
                         });
