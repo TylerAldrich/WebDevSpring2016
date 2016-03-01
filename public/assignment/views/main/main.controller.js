@@ -4,23 +4,19 @@
         .module('FormBuilderApp')
         .controller("MainController", MainController);
 
-    function MainController($scope, $location) {
+    function MainController($scope, $rootScope, $location) {
         $scope.$location = $location;
-        $scope.loggedIn = true;
-        $scope.username = "Blah";
-        $scope.isAdmin = true;
+        $rootScope.loggedIn = true;
+        $rootScope.username = "Blah";
+        $rootScope.isAdmin = true;
 
         $scope.logout = function() {
-            $scope.loggedIn = false;
+            $rootScope.loggedIn = false;
         };
 
         $scope.login = function() {
-            $scope.loggedIn = true;
+            $rootScope.loggedIn = true;
             $scope.$location.path("/home");
-        };
-
-        $scope.update = function() {
-            $route.reload();
         };
 
         $scope.updateLocation = function() {
