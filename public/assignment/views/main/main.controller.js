@@ -6,9 +6,10 @@
 
     function MainController($scope, $rootScope, $location) {
         $scope.$location = $location;
-        $rootScope.loggedIn = false;
-        $rootScope.user = null;
-        $rootScope.isAdmin = false;
+        $rootScope.loggedIn = true;
+        $rootScope.user =  {        "_id":234, "firstName":"Bob",              "lastName":"Hope",
+            "username":"bob",    "password":"bob",     "roles": ["admin"]                };
+        $rootScope.isAdmin = true;
 
         $scope.logout = function() {
             $rootScope.loggedIn = false;
