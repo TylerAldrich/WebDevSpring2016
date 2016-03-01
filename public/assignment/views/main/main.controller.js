@@ -14,11 +14,6 @@
             $rootScope.loggedIn = false;
         };
 
-        $scope.login = function() {
-            $rootScope.loggedIn = true;
-            $scope.$location.path("/home");
-        };
-
         $scope.updateLocation = function() {
             $scope.location = $location.url();
         };
