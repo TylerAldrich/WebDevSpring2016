@@ -43,6 +43,10 @@
                     </th>
                     <th>
                         <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        Date Logged
+                    </th>
+                    <th>
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                         Action
                     </th>
                 </tr>
@@ -56,6 +60,7 @@
                     <td><input type="text" class="form-control" placeholder="Ranged XP" ng-model="ranged"></td>
                     <td><input type="text" class="form-control" placeholder="Magic XP" ng-model="magic"></td>
                     <td><input type="text" class="form-control" placeholder="Prayer XP" ng-model="prayer"></td>
+                    <td><input type="date" class="form-control" ng-model="date"></td>
                     <td>
                         <button ng-click="addPlayer()" type="button" class="btn btn-primary btn-sm">Add</button>
                         <button ng-click="updatePlayer()" type="button" class="btn btn-warning btn-sm">Update</button>
@@ -69,6 +74,7 @@
                     <td>{{player.ranged}}</td>
                     <td>{{player.magic}}</td>
                     <td>{{player.prayer}}</td>
+                    <td>{{player.date}}</td>
                     <td>
                         <button ng-click="deletePlayer($index)" type="button" class="btn btn-danger btn-sm">Delete</button>
                         <button ng-click="selectPlayer($index)" type="button" class="btn btn-default btn-sm">Select</button>

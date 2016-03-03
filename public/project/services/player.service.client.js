@@ -19,7 +19,8 @@
                 "strength": 12345,
                 "ranged": 12345,
                 "magic": 12345,
-                "prayer": 666
+                "prayer": 666,
+                "date": 1456364470238
             },
             {
                 "_id": 1,
@@ -30,7 +31,8 @@
                 "strength": 12321345,
                 "ranged": 431,
                 "magic": 121234345,
-                "prayer": 4321
+                "prayer": 4321,
+                "date": 1456364470238
             },
             {
                 "_id": 2,
@@ -41,7 +43,20 @@
                 "strength": 144444444345,
                 "ranged": 2122121211,
                 "magic": 7654,
-                "prayer": 7564641
+                "prayer": 7564641,
+                "date": 1456968372849
+            },
+            {
+                "_id": 3,
+                "userId": 123,
+                "playerName": "Lord Newb",
+                "attack": 22345,
+                "defense": 22345,
+                "strength": 22345,
+                "ranged": 22345,
+                "magic": 22345,
+                "prayer": 667,
+                "date": 1456968514876
             }
         ];
 

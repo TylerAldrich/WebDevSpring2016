@@ -8,6 +8,9 @@
         $scope.selectedIdx = null;
 
         PlayerService.findAllPlayers($scope.user._id, function(players) {
+            for (var i in players) {
+                players[i].date = new Date(players[i].date);
+            }
             $scope.players = players;
         });
 
@@ -21,8 +24,10 @@
             player.ranged = $scope.ranged;
             player.magic = $scope.magic;
             player.prayer = $scope.prayer;
+            player.date = new Date($scope.date);
 
             PlayerService.createPlayer(player, function(newPlayer) {
+                newPlayer.date = new Date(newPlayer.date);
                 $scope.players.push(newPlayer);
             });
         };
@@ -45,7 +50,7 @@
             $scope.magic = $scope.players[idx].magic;
             $scope.ranged = $scope.players[idx].ranged;
             $scope.prayer = $scope.players[idx].prayer;
-
+            $scope.date = $scope.players[idx].date;
         };
 
         $scope.updatePlayer = function() {
@@ -58,7 +63,7 @@
             player.ranged = $scope.ranged;
             player.magic = $scope.magic;
             player.prayer = $scope.prayer;
-
+            player.date = new Date($scope.date);
 
             PlayerService.updatePlayer(player._id, player, function(newPlayer) {
                 $scope.players[$scope.selectedIdx] = newPlayer;
