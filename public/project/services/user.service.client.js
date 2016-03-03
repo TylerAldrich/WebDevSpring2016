@@ -14,6 +14,7 @@
                 "_id": 123,
                 "username":"Tyler",
                 "password":"1234",
+                "email": "aldrich.ty@husky.neu.edu",
                 "rsAccounts": ["Lord Newb", "Ninjalemon"],
                 "clans": ["Foo"]
             },
@@ -21,6 +22,7 @@
                 "_id": 234,
                 "username":"bob",
                 "password":"12345",
+                "email": "bob123@bob.com",
                 "rsAccounts": ["BobIsTheBest"],
                 "clans": ["Bar"]
             }

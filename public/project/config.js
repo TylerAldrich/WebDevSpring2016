@@ -25,7 +25,11 @@
         when("/goals", {
             templateUrl: "views/goals/goals.view.html",
             controller: "GoalController"
-        })
+        }).
+        when("/profile", {
+            templateUrl: "views/user/user.view.html",
+            controller: "UserController"
+        });
 
     }
 

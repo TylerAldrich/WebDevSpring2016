@@ -8,7 +8,6 @@
 
         var factory = {};
 
-        // ClanService contains info about specific clans, GoalService about all goals
         factory.players = [
             {
                 "_id": 0,
