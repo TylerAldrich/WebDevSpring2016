@@ -3,8 +3,79 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                XP Tracker
+                Player XP Tracking
             </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        Player Name
+                    </th>
+                    <th>
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        Attack
+                    </th>
+                    <th>
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        Strength
+                    </th>
+                    <th>
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        Defense
+                    </th>
+                    <th>
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        Ranged
+                    </th>
+                    <th>
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        Magic
+                    </th>
+                    <th>
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        Prayer
+                    </th>
+                    <th>
+                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="text" class="form-control" placeholder="Player Name" ng-model="playerName"></td>
+                    <td><input type="text" class="form-control" placeholder="Attack XP" ng-model="attack"></td>
+                    <td><input type="text" class="form-control" placeholder="Strength XP" ng-model="strength"></td>
+                    <td><input type="text" class="form-control" placeholder="Defense XP" ng-model="defense"></td>
+                    <td><input type="text" class="form-control" placeholder="Ranged XP" ng-model="ranged"></td>
+                    <td><input type="text" class="form-control" placeholder="Magic XP" ng-model="magic"></td>
+                    <td><input type="text" class="form-control" placeholder="Prayer XP" ng-model="prayer"></td>
+                    <td>
+                        <button ng-click="addPlayer()" type="button" class="btn btn-primary btn-sm">Add</button>
+                        <button ng-click="updatePlayer()" type="button" class="btn btn-warning btn-sm">Update</button>
+                    </td>
+                </tr>
+                <tr ng-repeat="player in players">
+                    <td>{{player.playerName}}</td>
+                    <td>{{player.attack}}</td>
+                    <td>{{player.strength}}</td>
+                    <td>{{player.defense}}</td>
+                    <td>{{player.ranged}}</td>
+                    <td>{{player.magic}}</td>
+                    <td>{{player.prayer}}</td>
+                    <td>
+                        <button ng-click="deletePlayer($index)" type="button" class="btn btn-danger btn-sm">Delete</button>
+                        <button ng-click="selectPlayer($index)" type="button" class="btn btn-default btn-sm">Select</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

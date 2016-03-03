@@ -30,7 +30,6 @@
                 userId: $scope.user._id
             };
 
-            console.log(form);
             FormService.updateFormById(formId, form, function(newForm) {
                 $scope.forms[$scope.currentSelection] = newForm;
             });

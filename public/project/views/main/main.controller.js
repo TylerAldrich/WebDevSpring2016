@@ -6,9 +6,13 @@
 
     function MainController($scope, $rootScope, $location) {
         $scope.$location = $location;
-        $rootScope.user = {
-            username: "Tyler"
+        $rootScope.user =  {
+            "_id": 123,
+            "username":"Tyler",
+            "password":"1234",
+            "rsAccounts": ["Lord Newb", "Ninjalemon"],
+            "clans": ["Foo"]
         };
-        $rootScope.loggedIn = false;
+        $rootScope.loggedIn = true;
     }
 })();

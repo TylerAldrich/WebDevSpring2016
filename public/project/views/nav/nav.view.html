@@ -13,7 +13,7 @@
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
-            <li>
+            <li ng-if="loggedIn" >
                 <form ng-submit="searchPlayer(usernameSearch)">
                     <input type="text" class="form-control nav-input" placeholder="Search Player" ng-model="usernameSearch">
                 </form>
