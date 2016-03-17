@@ -23,17 +23,28 @@
                 $scope.error = "Passwords do not match!";
             } else {
                 // Check for existing user + email, if none exists we create a new one
-                UserService.findUserByUsername(user.username, function(foundUser) {
-                    if (foundUser === null) {
-                        UserService.createUser(user, function() {
-                            $rootScope.user = user;
-                            $rootScope.loggedIn = true;
-                            $scope.$location.path("/profile");
-                        });
-                    } else {
-                        $scope.error = "Username already exists!";
+                UserService.findUserByUsername(user.username).then(
+                    function(response) {
+                        var foundUser = response.data;
+                        if (foundUser === null) {
+                            UserService.createUser(user).then(
+                                function(response) {
+                                    $rootScope.user = response.data;
+                                    $rootScope.loggedIn = true;
+                                    $scope.$location.path("/profile");
+                                },
+                                function(error) {
+                                    console.log(error);
+                                }
+                            );
+                        } else {
+                            $scope.error = "Username already exists!";
+                        }
+                    },
+                    function(error) {
+                        console.log(error);
                     }
-                });
+                );
             }
         }
     }
