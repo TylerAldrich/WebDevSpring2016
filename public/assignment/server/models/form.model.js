@@ -1,20 +1,22 @@
 var forms = require("./form.mock.json");
 
-module.exports = function(app) {
+module.exports = function() {
     "use strict";
     var api = {
         createForm: createForm,
         findAllForms: findAllForms,
         findFormById: findFormById,
         findFormByTitle: findFormByTitle,
+        findFormByUserId: findFormByUserId,
         updateForm: updateForm,
         deleteForm: deleteForm
     };
     return api;
 
     function createForm(form) {
-        form._id = (new Date).getTime();
+        form._id = (new Date).getTime().toString();
         forms.push(form);
+        return form;
     }
 
     function findAllForms() {
@@ -39,6 +41,15 @@ module.exports = function(app) {
         return null;
     }
 
+    function findFormByUserId(userId) {
+        for (var i in forms) {
+            if (forms[i].userId === userId) {
+                return forms[i];
+            }
+        }
+        return null;
+    }
+
     function updateForm(formId, form) {
         for (var i in forms) {
             if (forms[i]._id === formId) {
@@ -49,10 +60,10 @@ module.exports = function(app) {
         return null;
     }
 
-    function deleteForm() {
+    function deleteForm(formId) {
         var newForms = [];
         for (var i in forms) {
-            if (forms[i]._id !== userId) {
+            if (forms[i]._id !== formId) {
                 newForms.push(forms[i]);
             }
         }

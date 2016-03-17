@@ -1,6 +1,6 @@
 var users = require("./user.mock.json");
 
-module.exports = function(app) {
+module.exports = function() {
     "use strict";
     var api = {
         createUser: createUser,
@@ -16,6 +16,7 @@ module.exports = function(app) {
     function createUser(user) {
         user._id = (new Date).getTime();
         users.push(user);
+        return user;
     }
 
     function findAllUsers() {
