@@ -9,7 +9,12 @@ module.exports = function() {
         findFormByTitle: findFormByTitle,
         findFormByUserId: findFormByUserId,
         updateForm: updateForm,
-        deleteForm: deleteForm
+        deleteForm: deleteForm,
+        findAllFieldsByFormId: findAllFieldsByFormId,
+        findFieldByFormId: findFieldByFormId,
+        deleteFieldById: deleteFieldById,
+        updateFieldById: updateFieldById,
+        createFieldById: createFieldById
     };
     return api;
 
@@ -68,5 +73,62 @@ module.exports = function() {
             }
         }
         forms = newForms;
+    }
+
+    function findAllFieldsByFormId(formId) {
+        return findFormById(formId).fields;
+    }
+
+    function findFieldByFormId(formId, fieldId) {
+        var fields = findAllFieldsByFormId(formId);
+        for (var i in fields) {
+            if (fields[i]._id === fieldId) {
+                return fields[i];
+            }
+        }
+        return null;
+    }
+
+    function deleteFieldById(formId, fieldId) {
+        var newFields = [];
+        var currentFields = findAllFieldsByFormId(formId);
+        for (var i in currentFields) {
+            if (currentFields[i]._id !== fieldId) {
+                newFields.push(currentFields[i]);
+            }
+        }
+
+        for (var i in forms) {
+            if (forms[i]._id === formId) {
+                forms[i].fields = newFields;
+                return forms[i].fields;
+            }
+        }
+        return null;
+    }
+
+    function updateFieldById(formId, fieldId, newField) {
+        for (var i in forms) {
+            if (forms[i]._id === formId) {
+                for (var j in forms[i].fields) {
+                    if (forms[i].fields[j]._id === fieldId) {
+                        forms[i].fields[j] = newField;
+                        return forms[i].fields[j];
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    function createFieldById(formId, newField) {
+        newField._id = (new Date).getTime().toString();
+        for (var i in forms) {
+            if (forms[i]._id === formId) {
+                forms[i].fields.push(newField);
+                return forms[i].fields;
+            }
+        }
+        return null;
     }
 };
