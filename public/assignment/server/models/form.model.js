@@ -47,12 +47,13 @@ module.exports = function() {
     }
 
     function findFormByUserId(userId) {
+        var userForms = [];
         for (var i in forms) {
             if (forms[i].userId === userId) {
-                return forms[i];
+                userForms.push(forms[i])
             }
         }
-        return null;
+        return userForms;
     }
 
     function updateForm(formId, form) {

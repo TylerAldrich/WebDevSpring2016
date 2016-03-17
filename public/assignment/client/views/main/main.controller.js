@@ -7,8 +7,13 @@
     function MainController($scope, $rootScope, $location) {
         $scope.$location = $location;
         $rootScope.loggedIn = true;
-        $rootScope.user =  {        "_id":234, "firstName":"Bob",              "lastName":"Hope",
-            "username":"bob",    "password":"bob",     "roles": ["admin"]                };
+        $rootScope.user =  {
+            "_id": 123,
+            "firstName": "Alice",
+            "lastName": "Wonderland",
+            "username": "alice",
+            "password": "alice"
+        };
         $rootScope.isAdmin = true;
 
         $scope.logout = function() {
