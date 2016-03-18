@@ -7,7 +7,6 @@
     function FormsController($scope, FormService) {
         FormService.findAllFormsForUser($scope.user._id).then(
             function(res) {
-                console.log(res.data);
                 $scope.forms = res.data;
             },
             function(error) {

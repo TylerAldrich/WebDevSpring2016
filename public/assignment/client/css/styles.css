@@ -10,3 +10,7 @@ hr {
     color: black;
     border-width: 3px 0;
 }
+
+#dialog-boxes {
+    display: none;
+}

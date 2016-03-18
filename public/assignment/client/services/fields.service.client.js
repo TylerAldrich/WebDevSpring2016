@@ -28,6 +28,10 @@
             return $http.put("/api/assignment/form/" + formId + "/field/" + fieldId, field);
         };
 
+        factory.updateAllFields = function(formId, fields) {
+            return $http.put("/api/assignment/form/" + formId + "/field", fields);
+        };
+
         return factory;
     }
 })();

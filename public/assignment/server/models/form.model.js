@@ -14,7 +14,8 @@ module.exports = function() {
         findFieldByFormId: findFieldByFormId,
         deleteFieldById: deleteFieldById,
         updateFieldById: updateFieldById,
-        createFieldById: createFieldById
+        createFieldById: createFieldById,
+        updateAllFields: updateAllFields
     };
     return api;
 
@@ -77,7 +78,11 @@ module.exports = function() {
     }
 
     function findAllFieldsByFormId(formId) {
-        return findFormById(formId).fields;
+        var form = findFormById(formId)
+        if (form) {
+            return form.fields;
+        }
+        return null;
     }
 
     function findFieldByFormId(formId, fieldId) {
@@ -117,6 +122,16 @@ module.exports = function() {
                         return forms[i].fields[j];
                     }
                 }
+            }
+        }
+        return null;
+    }
+
+    function updateAllFields(formId, newFields) {
+        for (var i in forms) {
+            if (forms[i]._id === formId) {
+                forms[i].fields = newFields;
+                return forms[i].fields;
             }
         }
         return null;
