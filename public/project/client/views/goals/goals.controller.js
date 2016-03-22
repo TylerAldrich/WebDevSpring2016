@@ -6,14 +6,21 @@
 
     function GoalController($scope, GoalService) {
         $scope.selectedIdx = null;
+        getGoals();
 
-        GoalService.findAllGoals($scope.user._id, function(goals) {
-            $scope.goals = goals;
-        });
+        function getGoals() {
+            GoalService.findAllGoals($scope.user._id).then(
+                function(res) {
+                    $scope.goals = res.data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        }
 
         $scope.addGoal = function() {
             var goal = {};
-            goal.userId = $scope.user._id;
             goal.playerName = $scope.playerName;
             goal.attack = $scope.attack;
             goal.strength = $scope.strength;
@@ -22,18 +29,26 @@
             goal.magic = $scope.magic;
             goal.prayer = $scope.prayer;
 
-            GoalService.createGoal(goal, function(newGoal) {
-                $scope.goals.push(newGoal);
-            });
+            GoalService.createGoal($scope.user._id, goal).then(
+                function(res) {
+                    $scope.goals.push(res.data);
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
 
         $scope.deleteGoal = function(idx) {
             var goalId = $scope.goals[idx]._id;
-            GoalService.deleteGoalById(goalId, function() {
-                GoalService.findAllGoals($scope.user._id, function(goals) {
-                    $scope.goals = goals;
-                });
-            });
+            GoalService.deleteGoalById(goalId).then(
+                function() {
+                    getGoals();
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
 
         $scope.selectGoal = function(idx) {
@@ -58,9 +73,14 @@
             goal.magic = $scope.magic;
             goal.prayer = $scope.prayer;
 
-            GoalService.updateGoal(goal._id, goal, function(newGoal) {
-                $scope.goals[$scope.selectedIdx] = newGoal;
-            });
+            GoalService.updateGoal(goal._id, goal).then(
+                function(res) {
+                    $scope.goals[$scope.selectedIdx] = res.data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
     }
 })();

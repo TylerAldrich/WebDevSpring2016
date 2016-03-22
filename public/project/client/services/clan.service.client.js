@@ -8,28 +8,6 @@
 
         var factory = {};
 
-        // ClanService contains info about specific clans, GoalService about all goals
-        factory.clans = [
-            {
-                "_id": 0,
-                "ownerId": 123,
-                "clanName": "The Pwners",
-                "players": ["Lord Newb", "Tyler"]
-            },
-            {
-                "_id": 1,
-                "ownerId": 123,
-                "clanName": "The Noobs",
-                "players": ["NotTheBeast", "TheBeast420"]
-            },
-            {
-                "_id": 2,
-                "ownerId": 234,
-                "clanName": "The Freaks",
-                "players": ["BananaBob", "StrawberrySherry"]
-            }
-        ];
-
         factory.getClans = function(userId, callback) {
             var userClans = [];
             for (var i in factory.clans) {
