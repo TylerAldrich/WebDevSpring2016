@@ -11,10 +11,15 @@
 
 
         $scope.updateUser = function() {
-            UserService.updateUser($scope.userCopy._id, $scope.userCopy, function(newUser) {
-                $rootScope.user = newUser;
-                $scope.$location.url("/home");
-            });
+            UserService.updateUser($scope.userCopy._id, $scope.userCopy).then(
+                function(newUser) {
+                    $rootScope.user = newUser;
+                    $scope.$location.url("/home");
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
     }
 })();

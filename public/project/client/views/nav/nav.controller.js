@@ -13,14 +13,19 @@
 
         $scope.login = function(username, password) {
             console.log("Logging in with username:pass = " + username + ":" + password);
-            UserService.findUserByUsernameAndPassword(username, password, function(user) {
-                if (user !== null) {
-                    $rootScope.loggedIn = true;
-                    $rootScope.user = user;
-                    console.log($rootScope);
-                    $scope.$location.path("/home");
+            UserService.findUserByUsernameAndPassword(username, password).then(
+                function(res) {
+                    var user = res.data;
+                    if (user !== null) {
+                        $scope.loggedIn = true;
+                        $rootScope.user = user;
+                        $scope.$location.path("/home");
+                    }
+                },
+                function(error) {
+                    console.log(error);
                 }
-            });
+            );
         };
 
         $scope.searchPlayer = function(player) {
