@@ -6,9 +6,15 @@
 
     function ClanService() {
 
-        var factory = {};
+        var factory = {
+            getClans: getClans,
+            addClan: addClan,
+            deleteClan: deleteClan,
+            updateClan: updateClan
+        };
+        return factory;
 
-        factory.getClans = function(userId, callback) {
+        function getClans(userId) {
             var userClans = [];
             for (var i in factory.clans) {
                 if (factory.clans[i].ownerId === userId) {
@@ -16,17 +22,17 @@
                 }
             }
             callback(userClans);
-        };
+        }
 
-        factory.addClan = function(userId, clan, callback) {
+        function addClan(userId, clan) {
             clan._id = (new Date).getTime();
             clan.ownerId = userId;
 
             factory.clans.push(clan);
             callback(clan);
-        };
+        }
 
-        factory.deleteClan = function(clanId, callback) {
+        function deleteClan(clanId) {
             var newClans = [];
             for (var i in factory.clans) {
                 if (factory.clans[i]._id !== clanId) {
@@ -36,9 +42,9 @@
 
             factory.clans = newClans;
             callback(newClans);
-        };
+        }
 
-        factory.updateClan = function(clanId, newClan, callback) {
+        function updateClan(clanId, newClan) {
             for (var i in factory.clans) {
                 if (factory.clans[i]._id === clanId) {
                     factory.clans[i] = newClan;
@@ -47,8 +53,6 @@
                 }
             }
             callback(null);
-        };
-
-        return factory;
+        }
     }
 })();

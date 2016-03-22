@@ -6,24 +6,28 @@
 
     function FollowingService($http) {
 
-        var factory = {};
-
-        factory.getFollowing = function(userId) {
-            return $http.get("/api/project/user/" + userId + "/following");
+        var factory = {
+            getFollowing: getFollowing,
+            addFollower: addFollower,
+            deleteFollow: deleteFollow,
+            updateFollow: updateFollow
         };
-
-        factory.addFollower = function(userId, newFollow) {
-            return $http.post("/api/project/user/" + userId + "/following", newFollow);
-        };
-
-        factory.deleteFollow = function(followId) {
-            return $http.delete("/api/project/following/" + followId);
-        };
-
-        factory.updateFollow = function(followId, newFollow) {
-            return $http.put("/api/project/following/" + followId, newFollow);
-        };
-
         return factory;
+
+        function getFollowing(userId) {
+            return $http.get("/api/project/user/" + userId + "/following");
+        }
+
+        function addFollower(userId, newFollow) {
+            return $http.post("/api/project/user/" + userId + "/following", newFollow);
+        }
+
+        function deleteFollow(followId) {
+            return $http.delete("/api/project/following/" + followId);
+        }
+
+        function updateFollow(followId, newFollow) {
+            return $http.put("/api/project/following/" + followId, newFollow);
+        }
     }
 })();
