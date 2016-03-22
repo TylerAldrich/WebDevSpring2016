@@ -9,23 +9,23 @@
         var factory = {};
 
         factory.findPlayer = function(playerName) {
-            // http get
+            return $http.get("/api/project/player/" + playerName);
         };
 
         factory.findAllPlayers = function(userId) {
-            // http get
+            return $http.get("/api/project/user/" + userId + "/player");
         };
 
         factory.createPlayer = function(player) {
-            // http post
+            return $http.post("/api/project/player", player);
         };
 
         factory.deletePlayerById = function(playerId) {
-            // http delete
+            return $http.delete("/api/project/player/" + playerId);
         };
 
         factory.updatePlayer = function(playerId, player) {
-            // http put
+            return $http.put("/api/project/player/" + playerId, player);
         };
 
         return factory;

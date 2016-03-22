@@ -14,6 +14,7 @@ module.exports = function() {
     function createPlayer(player) {
         player._id = (new Date).getTime();
         players.push(player);
+        return player;
     }
 
     function findPlayer(playerName) {

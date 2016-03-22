@@ -6,17 +6,26 @@
 
     function XPTrackerController($scope, PlayerService) {
         $scope.selectedIdx = null;
+        getPlayers();
 
-        PlayerService.findAllPlayers($scope.user._id, function(players) {
-            for (var i in players) {
-                players[i].date = new Date(players[i].date);
-            }
-            $scope.players = players;
-        });
+        function getPlayers() {
+            PlayerService.findAllPlayers($scope.user._id).then(
+                function(res) {
+                    var players = res.data;
+                    for (var i in players) {
+                        players[i].date = new Date(players[i].date);
+                    }
+                    $scope.players = players;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        }
 
         $scope.addPlayer = function() {
             var player = {};
-            player._id = $scope.user._id;
+            player.userId = $scope.user._id;
             player.playerName = $scope.playerName;
             player.attack = $scope.attack;
             player.strength = $scope.strength;
@@ -26,19 +35,28 @@
             player.prayer = $scope.prayer;
             player.date = new Date($scope.date);
 
-            PlayerService.createPlayer(player, function(newPlayer) {
-                newPlayer.date = new Date(newPlayer.date);
-                $scope.players.push(newPlayer);
-            });
+            PlayerService.createPlayer(player).then(
+                function(res) {
+                    var newPlayer = res.data;
+                    newPlayer.date = new Date(newPlayer.date);
+                    $scope.players.push(newPlayer);
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
 
         $scope.deletePlayer = function(idx) {
             var playerId = $scope.players[idx]._id;
-            PlayerService.deletePlayerById(playerId, function() {
-                PlayerService.findAllPlayers($scope.user._id, function(players) {
-                    $scope.players = players;
-                });
-            });
+            PlayerService.deletePlayerById(playerId).then(
+                function() {
+                    getPlayers();
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
 
         $scope.selectPlayer = function(idx) {
@@ -65,9 +83,14 @@
             player.prayer = $scope.prayer;
             player.date = new Date($scope.date);
 
-            PlayerService.updatePlayer(player._id, player, function(newPlayer) {
-                $scope.players[$scope.selectedIdx] = newPlayer;
-            });
+            PlayerService.updatePlayer(player._id, player).then(
+                function(newPlayer) {
+                    $scope.players[$scope.selectedIdx] = newPlayer;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
     }
 })();

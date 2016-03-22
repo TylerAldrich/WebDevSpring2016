@@ -6,24 +6,42 @@
 
     function HomeController($scope, FollowingService) {
         $scope.selectedIdx = null;
+        getFollowing();
 
-        FollowingService.getFollowing($scope.user._id, function(following) {
-            $scope.following = following;
-        });
+        function getFollowing() {
+            FollowingService.getFollowing($scope.user._id).then(
+                function(res) {
+                    $scope.following = res.data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+
+        }
 
         $scope.addFollowing = function() {
-            FollowingService.addFollower($scope.user._id, $scope.username, function(newFollow) {
-                $scope.following.push(newFollow);
-            });
+            var newFollowing = {username: $scope.username};
+            FollowingService.addFollower($scope.user._id, newFollowing).then(
+                function(res) {
+                    $scope.following.push(res.data);
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
 
         $scope.deleteFollowing = function(idx) {
             var followId = $scope.following[idx]._id;
-            FollowingService.deleteFollow(followId, function(newFollowing) {
-                FollowingService.getFollowing($scope.user._id, function(following) {
-                    $scope.following = following;
-                });
-            });
+            FollowingService.deleteFollow(followId).then(
+                function() {
+                    getFollowing();
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
 
         $scope.selectFollowing = function(idx) {
@@ -40,9 +58,14 @@
                 userId: $scope.user._id
             };
 
-            FollowingService.updateFollow(followerId, follow, function(newFollowing) {
-                $scope.following[$scope.selectedIdx] = newFollowing;
-            });
+            FollowingService.updateFollow(followerId, follow).then(
+                function(res) {
+                    $scope.following[$scope.selectedIdx] = res.data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
     }
 })();
