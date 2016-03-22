@@ -6,28 +6,44 @@
 
     function ClanController($scope, ClanService) {
         $scope.selectedIdx = null;
+        getClans();
 
-        ClanService.getClans($scope.user._id, function(clans) {
-            $scope.clans = clans;
-        });
+        function getClans() {
+            ClanService.getClans($scope.user._id).then(
+                function(res) {
+                    $scope.clans = res.data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        }
 
         $scope.addClan = function() {
             var clan = {};
             clan.clanName = $scope.clanName;
             clan.players = $scope.players.split(',');
 
-            ClanService.addClan($scope.user._id, clan, function(newClan) {
-                $scope.clans.push(newClan);
-            });
+            ClanService.addClan($scope.user._id, clan).then(
+                function(res) {
+                    $scope.clans.push(res.data);
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
 
         $scope.deleteClan = function(idx) {
             var clanId = $scope.clans[idx]._id;
-            ClanService.deleteClan(clanId, function() {
-                ClanService.getClans($scope.user._id, function(clans) {
-                    $scope.clans = clans;
-                });
-            });
+            ClanService.deleteClan(clanId).then(
+                function() {
+                    getClans();
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
 
         $scope.selectClan = function(idx) {
@@ -40,11 +56,20 @@
             if ($scope.selectedIdx === null) return;
             var clan = $scope.clans[$scope.selectedIdx];
             clan.clanName = $scope.clanName;
-            clan.players = $scope.players.split(',');
+            if (typeof $scope.players === "string") {
+                clan.players = $scope.players.split(',');
+            } else {
+                clan.players = $scope.players;
+            }
 
-            ClanService.updateClan(clan._id, clan, function(newClan) {
-                $scope.clans[$scope.selectedIdx] = newClan;
-            });
+            ClanService.updateClan(clan._id, clan).then(
+                function(res) {
+                    $scope.clans[$scope.selectedIdx] = res.data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         };
     }
 })();
