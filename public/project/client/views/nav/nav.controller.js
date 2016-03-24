@@ -4,14 +4,19 @@
         .module('XPTrackerApp')
         .controller("NavController", NavController);
 
-    function NavController($scope, $rootScope, UserService) {
+    function NavController($scope, $rootScope, $http) {
 
         $scope.logout = function() {
             console.log("Logging out");
-            $rootScope.loggedIn = false;
-            $rootScope.user = null;
+            $http.post('/api/project/logout').then(
+                function() {
+                    $rootScope.loggedIn = false;
+                    $rootScope.user = null;
 
-            $scope.$location.path("/home");
+                    $scope.$location.path("/home");
+                }
+            );
+
         };
 
         $scope.searchPlayer = function(player) {

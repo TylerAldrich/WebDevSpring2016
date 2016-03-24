@@ -4,9 +4,9 @@
         .module('XPTrackerApp')
         .controller("HomeController", HomeController);
 
-    function HomeController($scope, $rootScope, FollowingService, UserService) {
+    function HomeController($scope, $rootScope, FollowingService, $http, UserService) {
         $scope.selectedIdx = null;
-        if ($scope.user !== null) {
+        if ($rootScope.user !== null) {
             getFollowing();
         }
 
@@ -21,19 +21,21 @@
             );
         }
 
-        $scope.getUser = function() {
-            return $scope.user;
-        };
-
         $scope.login = function(username, password) {
             console.log("Logging in with username:pass = " + username + ":" + password);
+
             UserService.findUserByUsernameAndPassword(username, password).then(
                 function(res) {
                     var user = res.data;
                     if (user !== null) {
-                        $rootScope.loggedIn = true;
-                        $rootScope.user = user;
-                        $scope.$location.path("/home");
+                        $http.post('/api/project/login', user).then(
+                            function(res) {
+                                $rootScope.loggedIn = true;
+                                $rootScope.user = res.data;
+                                $scope.$location.path("/home");
+                                getFollowing();
+                            }
+                        )
                     } else {
                         $scope.error = "Invalid Login Credentials"
                     }
@@ -62,7 +64,7 @@
                             rsAccounts: [],
                             clans: []
                         };
-                        UserService.createUser(u).then(
+                        UserService.register(u).then(
                             function(res) {
                                 $rootScope.user = res.data;
                                 $rootScope.loggedIn = true;

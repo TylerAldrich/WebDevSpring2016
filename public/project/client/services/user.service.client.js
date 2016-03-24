@@ -12,7 +12,8 @@
             findAllUsers: findAllUsers,
             createUser: createUser,
             deleteUserById: deleteUserById,
-            updateUser: updateUser
+            updateUser: updateUser,
+            register: register
         };
         return factory;
 
@@ -38,6 +39,10 @@
 
         function updateUser(userId, user) {
             return $http.put("/api/project/user/" + userId, user);
+        }
+
+        function register(user) {
+            return $http.post("/api/project/register", user);
         }
     }
 })();

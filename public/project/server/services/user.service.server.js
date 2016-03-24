@@ -1,5 +1,57 @@
-module.exports = function(app, UserModel) {
+module.exports = function(app, UserModel, passport, LocalStrategy) {
     "use strict";
+
+    passport.use(new LocalStrategy(
+        function(username, password, done){
+            var user = UserModel.findUserByCredentials({
+                username: username,
+                password: password
+            });
+            if (user !== null) {
+                return done(null, user);
+            } else {
+                return done(null, false);
+            }
+        }
+    ));
+
+    passport.serializeUser(function(user, done)
+    {
+        done(null, user);
+    });
+
+    passport.deserializeUser(function(user, done)
+    {
+        var user = UserModel.findUserById(user._id);
+        done(null, user);
+    });
+
+    function login(req, res) {
+        var user = req.user;
+        res.json(user);
+    }
+
+    function loggedIn(req, res) {
+        res.send(req.isAuthenticated() ? req.user : '0');
+    }
+
+    function logout(req, res) {
+        req.logOut();
+        res.send(200);
+    }
+
+    function register(req, res) {
+        var newUser = UserModel.createUser(req.body);
+        req.login(newUser, function(err) {
+            if (err) {return next(err);}
+            res.json(newUser);
+        });
+    }
+
+    app.post('/api/project/login', passport.authenticate('local'), login);
+    app.get('/api/project/loggedin', loggedIn);
+    app.post('/api/project/logout', logout);
+    app.post('/api/project/register', register);
 
     app.post('/api/project/user', createUser);
     app.get('/api/project/user', findUsers);
