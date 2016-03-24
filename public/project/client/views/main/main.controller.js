@@ -6,6 +6,7 @@
 
     function MainController($scope, $rootScope, $location) {
         $scope.$location = $location;
+
         $rootScope.user =  {
             "_id": 123,
             "username":"Tyler",
@@ -14,5 +15,6 @@
             "clans": ["Foo"]
         };
         $rootScope.loggedIn = true;
+
     }
 })();

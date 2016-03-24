@@ -4,9 +4,11 @@
         .module('XPTrackerApp')
         .controller("HomeController", HomeController);
 
-    function HomeController($scope, FollowingService) {
+    function HomeController($scope, $rootScope, FollowingService, UserService) {
         $scope.selectedIdx = null;
-        getFollowing();
+        if ($scope.user !== null) {
+            getFollowing();
+        }
 
         function getFollowing() {
             FollowingService.getFollowing($scope.user._id).then(
@@ -17,8 +19,65 @@
                     console.log(error);
                 }
             );
-
         }
+
+        $scope.getUser = function() {
+            return $scope.user;
+        };
+
+        $scope.login = function(username, password) {
+            console.log("Logging in with username:pass = " + username + ":" + password);
+            UserService.findUserByUsernameAndPassword(username, password).then(
+                function(res) {
+                    var user = res.data;
+                    if (user !== null) {
+                        $rootScope.loggedIn = true;
+                        $rootScope.user = user;
+                        $scope.$location.path("/home");
+                    } else {
+                        $scope.error = "Invalid Login Credentials"
+                    }
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
+        };
+
+        $scope.register = function(username, pw, pw2) {
+            console.log("Registering user with user:pass:pass2 = " + username + ":" + pw + ":" + pw2);
+            if (pw !== pw2) {
+                $scope.registerError = "Passwords do not match.";
+                return;
+            }
+            UserService.findUserByUsername(username).then(
+                function(res) {
+                    if (res.data !== null) {
+                        $scope.registerError = "Username already exists!";
+                    } else {
+                        var u = {
+                            username: username,
+                            password: pw,
+                            email: "",
+                            rsAccounts: [],
+                            clans: []
+                        };
+                        UserService.createUser(u).then(
+                            function(res) {
+                                $rootScope.user = res.data;
+                                $rootScope.loggedIn = true;
+                            },
+                            function(error) {
+                                console.log(error);
+                            }
+                        )
+                    }
+                },
+                function(error) {
+                    console.log(error);
+                }
+            )
+        };
 
         $scope.addFollowing = function() {
             var newFollowing = {username: $scope.username};

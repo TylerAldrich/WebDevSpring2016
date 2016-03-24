@@ -1,0 +1,48 @@
+<div ng-controller="HomeController">
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Search
+                <small>{{userSearched}}</small>
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+
+    <div ng-if="error" class="alert alert-danger">{{error}}</div>
+    <div ng-if="!error" class="row">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        Runescape Account Names
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="account in userFound.rsAccounts">
+                    <td>{{account}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        Following
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="user in userFollowing">
+                    <td>{{user.username}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

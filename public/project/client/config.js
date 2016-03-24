@@ -29,6 +29,10 @@
         when("/profile", {
             templateUrl: "views/user/user.view.html",
             controller: "UserController"
+        }).
+        when("/search", {
+            templateUrl: "views/search/search.view.html",
+            controller: "SearchController"
         });
 
     }

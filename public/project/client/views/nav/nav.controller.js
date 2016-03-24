@@ -8,29 +8,15 @@
 
         $scope.logout = function() {
             console.log("Logging out");
-            $scope.loggedIn = false;
-        };
+            $rootScope.loggedIn = false;
+            $rootScope.user = null;
 
-        $scope.login = function(username, password) {
-            console.log("Logging in with username:pass = " + username + ":" + password);
-            UserService.findUserByUsernameAndPassword(username, password).then(
-                function(res) {
-                    var user = res.data;
-                    if (user !== null) {
-                        $scope.loggedIn = true;
-                        $rootScope.user = user;
-                        $scope.$location.path("/home");
-                    }
-                },
-                function(error) {
-                    console.log(error);
-                }
-            );
+            $scope.$location.path("/home");
         };
 
         $scope.searchPlayer = function(player) {
             console.log("Searching for player: " + player);
-            $scope.usernameSearch = "";
+            $scope.$location.path("/search").search({user: player});
         };
 
         $scope.getClass = function(path) {

@@ -3,14 +3,16 @@
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">
-                Home <small>Following Information</small>
+                Home
+                <small ng-if="user">Following Information</small>
+                <small ng-if="!user">Login / Register</small>
             </h1>
         </div>
     </div>
     <!-- /.row -->
 
     <div class="row">
-        <div class="table-responsive">
+        <div ng-if="getUser()" class="table-responsive">
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -41,6 +43,59 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+
+        <div ng-if="!getUser()">
+            <!-- LOGIN -->
+            <div class="main">
+                <form class="form-horizontal" ng-submit="login(username, password)">
+                    <div ng-if="error" class="alert alert-danger">{{error}}</div>
+                    <div class="form-group">
+                        <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputUsername" placeholder="Username" ng-model="username">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">Login</button>
+                        </div>
+                    </div>
+                </form>
+                <hr>
+                <form class="form-horizontal" ng-submit="register(registerUsername, registerPassword, registerPassword2)">
+                    <div ng-if="registerError" class="alert alert-danger">{{registerError}}</div>
+                    <div class="form-group">
+                        <label for="inputUsername" class="col-sm-2 control-label">Username</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="inputUsername" placeholder="Username" ng-model="registerUsername">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="registerPassword">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="col-sm-2 control-label">Repeat Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inputPassword" placeholder="Repeat Password" ng-model="registerPassword2">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">Register</button>
+                        </div>
+                    </div>
+                 </form>
+            </div>
         </div>
     </div>
 </div>
