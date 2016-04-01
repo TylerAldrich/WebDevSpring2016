@@ -6,14 +6,8 @@
 
     function MainController($scope, $rootScope, $location) {
         $scope.$location = $location;
-        $rootScope.loggedIn = true;
-        $rootScope.user =  {
-            "_id": 123,
-            "firstName": "Alice",
-            "lastName": "Wonderland",
-            "username": "alice",
-            "password": "alice"
-        };
+        $rootScope.loggedIn = false;
+        $rootScope.user = null;
         $rootScope.isAdmin = true;
 
         $scope.logout = function() {

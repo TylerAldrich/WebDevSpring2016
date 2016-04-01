@@ -13,8 +13,7 @@
             user.lastName = "";
             user.username = $scope.username;
             user.password = $scope.password;
-            user.roles = ["student"];
-            user.email = $scope.email;
+            user.emails = [$scope.email];
 
             if ($scope.username === undefined || $scope.password === undefined || $scope.email === undefined) {
                 $scope.error = "Please fill in all fields!";
@@ -26,6 +25,7 @@
                 UserService.findUserByUsername(user.username).then(
                     function(response) {
                         var foundUser = response.data;
+                        console.log(foundUser);
                         if (foundUser === null) {
                             UserService.createUser(user).then(
                                 function(response) {

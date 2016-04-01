@@ -8,8 +8,11 @@ module.exports = function(app, UserModel) {
     app.delete('/api/assignment/user/:id', deleteUser);
 
     function createUser(req, res) {
-        var newUser = UserModel.createUser(req.body);
-        res.json(newUser);
+        UserModel.createUser(req.body).then(
+            function(newUser) {
+                res.json(newUser);
+            }
+        );
     }
 
     function findUsers(req, res) {
@@ -20,21 +23,37 @@ module.exports = function(app, UserModel) {
                 findUserByUsername(req, res);
             }
         } else {
-            var users = UserModel.findAllUsers();
-            res.json(users);
+            UserModel.findAllUsers().then(
+                function(allUsers) {
+                    res.json(allUsers);
+                }
+            );
         }
     }
 
     function findUserById(req, res) {
-        var userId = parseInt(req.params.id);
-        var user = UserModel.findUserById(userId);
-        res.json(user);
+        UserModel.findUserById(req.params.id).then(
+            function(user) {
+                if (user.length > 0) {
+                    res.json(user[0]);
+                } else {
+                    res.json(null);
+                }
+            }
+        );
     }
 
     function findUserByUsername(req, res) {
         var username = req.query.username;
-        var user = UserModel.findUserByUsername(username);
-        res.json(user);
+        UserModel.findUserByUsername(username).then(
+            function(user) {
+                if (user.length > 0) {
+                    res.json(user[0]);
+                } else {
+                    res.json(null);
+                }
+            }
+        );
     }
 
     function findUserByCredentials(req, res) {
@@ -42,19 +61,30 @@ module.exports = function(app, UserModel) {
             username: req.query.username,
             password: req.query.password
         };
-        var user = UserModel.findUserByCredentials(credentials);
-        res.json(user);
+        UserModel.findUserByCredentials(credentials).then(
+            function(user) {
+                if (user.length > 0) {
+                    res.json(user[0]);
+                } else {
+                    res.json(null);
+                }
+            }
+        );
     }
 
     function updateUser(req, res) {
-        var userId = parseInt(req.params.id);
-        var newUser = UserModel.updateUser(userId, req.body);
-        res.json(newUser);
+        UserModel.updateUser(req.params.id, req.body).then(
+            function(newUser) {
+                res.json(newUser);
+            }
+        );
     }
 
     function deleteUser(req, res) {
-        var userId = parseInt(req.params.id);
-        UserModel.deleteUser(userId);
-        res.send(200);
+        UserModel.deleteUser(req.params.id).then(
+            function() {
+                res.send(200);
+            }
+        );
     }
 };

@@ -59,6 +59,7 @@
 
             FieldsService.createFieldForForm($scope.formId, field).then(
                 function(res) {
+                    console.log(res.data);
                     $scope.fields = res.data;
                 },
                 function(error) {
@@ -126,8 +127,14 @@
                     });
                 }
             }
-
-            FieldsService.updateField($scope.formId, field._id, field);
+            FieldsService.updateField($scope.formId, field._id, field).then(
+                function(res) {
+                    $scope.fields[idx] = res.data;
+                },
+                function(error) {
+                    console.log(error);
+                }
+            );
         }
 
         function updateAllFieldsOrder(newOrder) {

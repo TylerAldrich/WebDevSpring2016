@@ -9,36 +9,56 @@ module.exports = function(app, FormModel) {
     app.put('/api/assignment/form/:formId', updateForm);
 
     function findAllForms(req, res) {
-        var forms = FormModel.findAllForms();
-        res.json(forms);
+        FormModel.findAllForms().then(
+            function(forms) {
+                res.json(forms);
+            }
+        );
     }
 
     function findFormByUserId(req, res) {
-        var userId = parseInt(req.params.userId);
-        var form = FormModel.findFormByUserId(userId);
-        res.json(form);
+        FormModel.findFormByUserId(req.params.userId).then(
+            function(form) {
+                res.json(form);
+            }
+        );
     }
 
     function findFormById(req, res) {
-        var form = FormModel.findFormById(req.params.formId);
-        res.json(form);
+        FormModel.findFormById(req.params.formId).then(
+            function(form) {
+                if (form.length > 0) {
+                    res.json(form[0]);
+                } else {
+                    res.json(null);
+                }
+            }
+        );
     }
 
     function deleteForm(req, res) {
-        FormModel.deleteForm(req.params.formId);
-        res.send(200);
+        FormModel.deleteForm(req.params.formId).then(
+            function() {
+                res.send(200);
+            }
+        );
     }
 
     function createForm(req, res) {
-        var userId = parseInt(req.params.userId);
         var newForm = req.body;
-        newForm.userId = userId;
-        var form = FormModel.createForm(newForm);
-        res.json(form);
+        newForm.userId = req.params.userId;
+        FormModel.createForm(newForm).then(
+            function(form) {
+                res.json(form);
+            }
+        );
     }
 
     function updateForm(req, res) {
-        var form = FormModel.updateForm(req.params.formId, req.body);
-        res.json(form);
+        FormModel.updateForm(req.params.formId, req.body).then(
+            function(newForm) {
+                res.json(newForm);
+            }
+        )
     }
 };
