@@ -57,7 +57,7 @@ module.exports = function(mongoose) {
 
     function findUserByCredentials(credentials) {
         var deferred = q.defer();
-        UserModel.find(credentials, function(err, user) {
+        UserModel.findOne(credentials, function(err, user) {
             deferred.resolve(user);
         });
         return deferred.promise;

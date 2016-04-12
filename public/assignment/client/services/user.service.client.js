@@ -17,19 +17,34 @@
         };
 
         factory.findAllUsers = function() {
-            return $http.get("/api/assignment/user");
+            return $http.get("/api/assignment/admin/user");
         };
 
         factory.createUser = function(user) {
-            return $http.post("/api/assignment/user", user);
+            return $http.post("/api/assignment/admin/user", user);
         };
 
         factory.deleteUserById = function(userId) {
-            return $http.delete("/api/assignment/user/" + userId);
+            return $http.delete("/api/assignment/admin/user/" + userId);
         };
 
         factory.updateUser = function(userId, user) {
-            return $http.put("/api/assignment/user/" + userId, user);
+            return $http.put("/api/assignment/admin/user/" + userId, user);
+        };
+
+        factory.login = function(username, password) {
+            return $http.post("/api/assignment/login", {
+                username: username,
+                password: password
+            });
+        };
+
+        factory.logout = function() {
+            return $http.post("/api/assignment/logout");
+        };
+
+        factory.register = function(user) {
+            return $http.post("/api/assignment/user", user);
         };
 
         return factory;

@@ -1,7 +1,7 @@
 module.exports = function(app, UserModel, passport, LocalStrategy) {
     "use strict";
 
-    passport.use(new LocalStrategy(
+    passport.use('project-local', new LocalStrategy(
         function(username, password, done){
             var user = UserModel.findUserByCredentials({
                 username: username,
@@ -14,6 +14,7 @@ module.exports = function(app, UserModel, passport, LocalStrategy) {
             }
         }
     ));
+
 
     passport.serializeUser(function(user, done)
     {
@@ -48,7 +49,7 @@ module.exports = function(app, UserModel, passport, LocalStrategy) {
         });
     }
 
-    app.post('/api/project/login', passport.authenticate('local'), login);
+    app.post('/api/project/login', passport.authenticate('project-local'), login);
     app.get('/api/project/loggedin', loggedIn);
     app.post('/api/project/logout', logout);
     app.post('/api/project/register', register);

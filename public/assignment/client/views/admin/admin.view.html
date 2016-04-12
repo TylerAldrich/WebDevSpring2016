@@ -7,58 +7,64 @@
                     <thead>
                     <tr>
                         <th>
-                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            Username
+                            <span ng-if="sortField == 'username'">
+                                <span ng-if="!sortAsc" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                                <span ng-if="sortAsc" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            </span>
+                            <span ng-click="sortBy('username')">
+                                Username
+                            </span>
                         </th>
                         <th>
-                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                             Password
                         </th>
                         <th>
-                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
-                            Role
+                            <span ng-if="sortField == 'firstName'">
+                                <span ng-if="!sortAsc" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                                <span ng-if="sortAsc" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            </span>
+                            <span ng-click="sortBy('firstName')">
+                                First Name
+                            </span>
                         </th>
                         <th>
-                            <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            <span ng-if="sortField == 'lastName'">
+                                <span ng-if="!sortAsc" class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span>
+                                <span ng-if="sortAsc" class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            </span>
+                            <span ng-click="sortBy('lastName')">
+                                Last Name
+                            </span>
+                        </th>
+                        <th>
+                            Roles
+                        </th>
+                        <th>
                             Action
                         </th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td><input type="text" class="form-control" placeholder="Username"></td>
-                        <td><input type="text" class="form-control" placeholder="Password"></td>
-                        <td><input type="text" class="form-control" placeholder="Role1, Role2"></td>
+                        <td><input type="text" class="form-control" placeholder="Username" ng-model="username"></td>
+                        <td><input type="text" class="form-control" placeholder="Password" ng-model="password"></td>
+                        <td><input type="text" class="form-control" placeholder="First Name" ng-model="firstName"></td>
+                        <td><input type="text" class="form-control" placeholder="Last Name" ng-model="lastName"></td>
+                        <td><input type="text" class="form-control" placeholder="Role1, Role2" ng-model="rolesString"></td>
                         <td>
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                            <span class=" glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true" ng-click="addUser()"></span>
+                            <span class=" glyphicon glyphicon-ok" aria-hidden="true" ng-click="updateUser()"></span>
                         </td>
                     </tr>
-                    <tr>
-                        <td>Alice</td>
+                    <tr ng-repeat="user in users">
+                        <td>{{user.username}}</td>
                         <td></td>
-                        <td>student</td>
+                        <td>{{user.firstName}}</td>
+                        <td>{{user.lastName}}</td>
+                        <td>{{getRoles(user)}}</td>
                         <td>
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Bob</td>
-                        <td></td>
-                        <td>Faculty | Admin</td>
-                        <td>
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Charlie</td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="deleteUser($index)"></span>
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true" ng-click="selectUser($index)"></span>
                         </td>
                     </tr>
                     </tbody>
