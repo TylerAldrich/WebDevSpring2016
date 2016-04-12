@@ -27,7 +27,7 @@
                         var foundUser = response.data;
                         console.log(foundUser);
                         if (foundUser === null) {
-                            UserService.createUser(user).then(
+                            UserService.register(user).then(
                                 function(response) {
                                     $rootScope.user = response.data;
                                     $rootScope.loggedIn = true;
