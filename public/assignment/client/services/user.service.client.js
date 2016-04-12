@@ -28,8 +28,12 @@
             return $http.delete("/api/assignment/admin/user/" + userId);
         };
 
-        factory.updateUser = function(userId, user) {
+        factory.updateUserAdmin = function(userId, user) {
             return $http.put("/api/assignment/admin/user/" + userId, user);
+        };
+
+        factory.updateUser = function(userId, user) {
+            return $http.put("/api/assignment/user/" + userId, user);
         };
 
         factory.login = function(username, password) {

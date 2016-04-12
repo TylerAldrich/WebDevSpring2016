@@ -80,7 +80,7 @@
             user.lastName = $scope.lastName;
             user.roles = $scope.rolesString.split(",");
 
-            UserService.updateUser(user._id, user).then(
+            UserService.updateUserAdmin(user._id, user).then(
                 function(res) {
                     populateAndSortUsers();
                 }
