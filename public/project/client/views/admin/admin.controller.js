@@ -21,10 +21,10 @@
             var user = {
                 username: $scope.username,
                 password: $scope.password,
-                rsAccounts: $scope.rsAccounts.split(","),
-                clans: $scope.clans.split(","),
                 isAdmin: $scope.isAdmin
             };
+            if ($scope.rsAccounts) user.rsAccounts = $scope.rsAccounts.split(",");
+            if ($scope.clans) user.clans = $scope.clans.split(",");
 
             UserService.createUser(user).then(
                 function(res) {
@@ -39,8 +39,8 @@
             var user =  $scope.users[$scope.currentSelection];
             user.username = $scope.username;
             user.password = $scope.password;
-            user.rsAccounts = $scope.rsAccounts.split(",");
-            user.clans = $scope.clans.split(",");
+            if ($scope.rsAccounts) user.rsAccounts = $scope.rsAccounts.split(",");
+            if ($scope.clans) user.clans = $scope.clans.split(",");
             user.isAdmin = $scope.isAdmin;
 
             UserService.updateUserAdmin(user._id, user).then(
