@@ -20,6 +20,9 @@
                     $scope.following = res.data || [];
                     getUpdates();
 
+                    $rootScope.recentUpdates.sort(function(a,b) {
+                       return b.realTime - a.realTime;
+                    });
                     //console.log($scope.recentUpdates);
                 },
                 function(error) {
@@ -68,6 +71,7 @@
                         row.player = player.playerName;
                         row.goal = goals[i][stat] + " XP in " + stat + " achieved!";
                         row.timeString = timeSince(new Date(player.date)) + " ago";
+                        row.realTime = new Date(player.date);
                         rows.push(row);
                     }
                 }
