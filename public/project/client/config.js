@@ -94,6 +94,7 @@
                 if (user !== "0") {
                     $rootScope.user = user;
                     $rootScope.loggedIn = true;
+                    $rootScope.error = null;
                 } else {
                     $rootScope.user = null;
                     $rootScope.loggedIn = false;
