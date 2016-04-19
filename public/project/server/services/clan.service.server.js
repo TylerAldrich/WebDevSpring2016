@@ -6,26 +6,34 @@ module.exports = function(app, ClanModel) {
     app.delete('/api/project/clan/:id', deleteClan);
 
     function createClan(req, res) {
-        var userId = parseInt(req.params.userId);
-        var newFollowing = ClanModel.createClan(userId, req.body);
-        res.json(newFollowing);
+        ClanModel.createClan(req.params.userId, req.body).then(
+            function(newClan) {
+                res.json(newClan);
+            }
+        );
     }
 
     function findClan(req, res) {
-        var userId = parseInt(req.params.userId);
-        var following = ClanModel.findClan(userId);
-        res.json(following);
+        ClanModel.findClan(req.params.userId).then(
+            function(clan) {
+                res.json(clan);
+            }
+        );
     }
 
     function updateClan(req, res) {
-        var clanId = parseInt(req.params.id);
-        var newClan = ClanModel.updateClan(clanId, req.body);
-        res.json(newClan);
+        ClanModel.updateClan(req.params.id, req.body).then(
+            function(newClan) {
+                res.json(newClan);
+            }
+        );
     }
 
     function deleteClan(req, res) {
-        var clanId = parseInt(req.params.id);
-        ClanModel.deleteClan(clanId);
-        res.send(200);
+        ClanModel.deleteClan(req.params.id).then(
+            function() {
+                res.send(200);
+            }
+        );
     }
 };

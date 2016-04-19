@@ -1,7 +1,11 @@
-var goals = require("./goal.mock.json");
+var q = require('q');
 
-module.exports = function() {
+module.exports = function(mongoose) {
     "use strict";
+
+    var GoalSchema = require("./goal.server.schema.js")(mongoose);
+    var GoalModel = mongoose.model("GoalModel", GoalSchema);
+
     var api = {
         createGoal: createGoal,
         deleteGoal: deleteGoal,
@@ -12,50 +16,68 @@ module.exports = function() {
     return api;
 
     function createGoal(userId, goal) {
-        goal._id = (new Date).getTime();
         goal.userId = userId;
-        goals.push(goal);
-        return goal;
+        var deferred = q.defer();
+        GoalModel.create(goal,
+            function(err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(doc);
+                }
+            }
+        );
+        return deferred.promise;
     }
 
     function deleteGoal(goalId) {
-        var newGoals = [];
-        for (var i in goals) {
-            if (goals[i]._id !== goalId) {
-                newGoals.push(goals[i]);
+        var deferred = q.defer();
+        GoalModel.remove({_id: goalId}, function(err, status) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(status);
             }
-        }
-        goals = newGoals;
-        return goals;
+        });
+        return deferred.promise;
     }
 
     function updateGoal(goalId, goal) {
-        for (var i in goals) {
-            if (goals[i]._id === goalId) {
-                goals[i] = goal;
-                return goal;
-
+        var deferred = q.defer();
+        GoalModel.findById(goalId, function(err, doc) {
+            var fields = Object.keys(goal);
+            for (var i in fields) {
+                doc[fields[i]] = goal[fields[i]];
             }
-        }
-        return null;
+
+            doc.save(function(err, doc) {
+                deferred.resolve(doc);
+            });
+        });
+        return deferred.promise;
     }
 
     function findAllGoals(userId) {
-        var foundGoals = [];
-        for (var i in goals) {
-            if (goals[i].userId === userId) {
-                foundGoals.push(goals[i]);
+        var deferred = q.defer();
+        GoalModel.find({userId: userId}, function(err, goals) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(goals);
             }
-        }
-        return foundGoals;
+        });
+        return deferred.promise;
     }
 
     function findPlayerGoal(playerName) {
-        for (var i in goals) {
-            if (goals[i].playerName === playerName) {
-                return goals[i];
+        var deferred = q.defer();
+        GoalModel.find({playerName: playerName}, function(err, goals) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(goals);
             }
-        }
-        return null;
+        });
+        return deferred.promise;
     }
 };

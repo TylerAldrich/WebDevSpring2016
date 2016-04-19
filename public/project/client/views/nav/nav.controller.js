@@ -4,11 +4,11 @@
         .module('XPTrackerApp')
         .controller("NavController", NavController);
 
-    function NavController($scope, $rootScope, $http) {
+    function NavController($scope, $rootScope, $http, UserService) {
 
         $scope.logout = function() {
             console.log("Logging out");
-            $http.post('/api/project/logout').then(
+            UserService.logout().then(
                 function() {
                     $rootScope.loggedIn = false;
                     $rootScope.user = null;

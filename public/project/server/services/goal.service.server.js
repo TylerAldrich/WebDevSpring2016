@@ -3,36 +3,47 @@ module.exports = function(app, GoalModel) {
 
     app.post('/api/project/user/:userId/goal', createGoal);
     app.get('/api/project/user/:userId/goal', findAllGoals);
-    app.get('/api/project/following/:playerName', findPlayerGoal);
+    app.get('/api/project/goal/:playerName', findPlayerGoal);
     app.put('/api/project/goal/:id', updateGoal);
     app.delete('/api/project/goal/:id', deleteGoal);
 
     function createGoal(req, res) {
-        var userId = parseInt(req.params.userId);
-        var newFollowing = GoalModel.createGoal(userId, req.body);
-        res.json(newFollowing);
+        GoalModel.createGoal(req.params.userId, req.body).then(
+            function(newGoal) {
+                res.json(newGoal);
+            }
+        );
     }
 
     function findAllGoals(req, res) {
-        var userId = parseInt(req.params.userId);
-        var goals = GoalModel.findAllGoals(userId);
-        res.json(goals);
+        GoalModel.findAllGoals(req.params.userId).then(
+            function(goals) {
+                res.json(goals);
+            }
+        );
     }
 
     function findPlayerGoal(req, res) {
-        var goal = GoalModel.findPlayerGoal(req.params.playerName);
-        res.json(goal);
+        GoalModel.findPlayerGoal(req.params.playerName).then(
+            function(goal) {
+                res.json(goal);
+            }
+        );
     }
 
     function updateGoal(req, res) {
-        var goalId = parseInt(req.params.id);
-        var newGoal = GoalModel.updateGoal(goalId, req.body);
-        res.json(newGoal);
+        GoalModel.updateGoal(req.params.id, req.body).then(
+            function(newGoal) {
+                res.json(newGoal);
+            }
+        );
     }
 
     function deleteGoal(req, res) {
-        var goalId = parseInt(req.params.id);
-        GoalModel.deleteGoal(goalId);
-        res.send(200);
+        GoalModel.deleteGoal(req.params.id).then(
+            function() {
+                res.send(200);
+            }
+        );
     }
 };

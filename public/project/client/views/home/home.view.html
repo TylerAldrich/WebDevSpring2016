@@ -1,4 +1,4 @@
-<div ng-controller="HomeController">
+<div>
     <!-- Page Heading -->
     <div class="row">
         <div class="col-lg-12">
@@ -17,18 +17,16 @@
                 <thead>
                 <tr>
                     <th>
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                         Player Name
                     </th>
                     <th>
-                        <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
                         Action
                     </th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td><input type="text" class="form-control" placeholder="Player Name" ng-model="username"></td>
+                    <td><input type="text" class="form-control" placeholder="Player Name" ng-model="newPlayer.username"></td>
                     <td>
                         <button ng-click="addFollowing()" type="button" class="btn btn-primary btn-sm">Add</button>
                         <button ng-click="updateFollowing()" type="button" class="btn btn-warning btn-sm">Update</button>
@@ -40,6 +38,28 @@
                         <button ng-click="deleteFollowing($index)" type="button" class="btn btn-danger btn-sm">Delete</button>
                         <button ng-click="selectFollowing($index)" type="button" class="btn btn-default btn-sm">Select</button>
                     </td>
+                </tr>
+                </tbody>
+            </table>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        Player
+                    </th>
+                    <th>
+                        Goal Achieved
+                    </th>
+                    <th>
+                        Time
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="update in recentUpdates">
+                    <td>{{update.player}}</td>
+                    <td>{{update.goal}}</td>
+                    <td>{{update.timeString}}</td>
                 </tr>
                 </tbody>
             </table>

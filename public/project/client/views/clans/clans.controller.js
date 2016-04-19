@@ -11,7 +11,7 @@
         function getClans() {
             ClanService.getClans($scope.user._id).then(
                 function(res) {
-                    $scope.clans = res.data;
+                    $scope.clans = res.data || [];
                 },
                 function(error) {
                     console.log(error);

@@ -1,0 +1,63 @@
+<div ng-controller="AdminController">
+    <!-- Page Heading -->
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Admin Panel
+            </h1>
+        </div>
+    </div>
+    <!-- /.row -->
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>
+                        Username
+                    </th>
+                    <th>
+                        Password
+                    </th>
+                    <th>
+                        RS Accounts
+                    </th>
+                    <th>
+                        Clans
+                    </th>
+                    <th>
+                        Is Admin
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><input type="text" class="form-control" placeholder="Username" ng-model="username"></td>
+                    <td><input type="text" class="form-control" placeholder="Password" ng-model="password"></td>
+                    <td><input type="text" class="form-control" placeholder="RS Accounts" ng-model="rsAccounts"></td>
+                    <td><input type="text" class="form-control" placeholder="Clans" ng-model="clans"></td>
+                    <td><input type="checkbox" class="form-control" ng-model="isAdmin" ng-checked="isAdmin"></td>
+                    <td>
+                        <button ng-click="addUser()" type="button" class="btn btn-primary btn-sm">Add</button>
+                        <button ng-click="updateUser()" type="button" class="btn btn-warning btn-sm">Update</button>
+                    </td>
+                </tr>
+                <tr ng-repeat="user in users">
+                    <td>{{user.username}}</td>
+                    <td></td>
+                    <td>{{user.rsAccounts.join()}}</td>
+                    <td>{{user.clans.join()}}</td>
+                    <td>{{user.isAdmin}}</td>
+                    <td>
+                        <button ng-click="deleteUser($index)" type="button" class="btn btn-danger btn-sm">Delete</button>
+                        <button ng-click="selectUser($index)" type="button" class="btn btn-default btn-sm">Select</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

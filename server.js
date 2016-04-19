@@ -46,7 +46,7 @@ app.get('/hello', function(req, res){
     res.send('hello world');
 });
 
+require("./public/project/server/app.js")(app, passport, LocalStrategy, mongoose);
 require("./public/assignment/server/app.js")(app, mongoose, passport, LocalStrategy);
-require("./public/project/server/app.js")(app, passport, LocalStrategy, mongoose, db);
 
 app.listen(port, ipaddress);

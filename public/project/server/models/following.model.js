@@ -1,7 +1,11 @@
-var following = require("./following.mock.json");
+var q = require('q');
 
-module.exports = function() {
+module.exports = function(mongoose) {
     "use strict";
+
+    var FollowingSchema = require("./following.server.schema.js")(mongoose);
+    var FollowingModel = mongoose.model("FollowingModel", FollowingSchema);
+
     var api = {
         createFollowing: createFollowing,
         deleteFollowing: deleteFollowing,
@@ -11,41 +15,56 @@ module.exports = function() {
     return api;
 
     function createFollowing(userId, newFollow) {
-        newFollow._id = (new Date).getTime();
         newFollow.userId = userId;
-
-        following.push(newFollow);
-        return newFollow;
+        var deferred = q.defer();
+        FollowingModel.create(newFollow,
+            function(err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(doc);
+                }
+            }
+        );
+        return deferred.promise;
     }
 
     function deleteFollowing(followId) {
-        var newFollowing = [];
-        for (var i in following) {
-            if (following[i]._id !== followId) {
-                newFollowing.push(following[i]);
+        var deferred = q.defer();
+        FollowingModel.remove({_id: followId}, function(err, status) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(status);
             }
-        }
-        following = newFollowing;
-        return following;
+        });
+        return deferred.promise;
     }
 
     function updateFollowing(followId, newFollow) {
-        for (var i in following) {
-            if (following[i]._id === followId) {
-                following[i] = newFollow;
-                return newFollow;
+        var deferred = q.defer();
+        FollowingModel.findById(followId, function(err, doc) {
+            var fields = Object.keys(newFollow);
+            for (var i in fields) {
+                doc[fields[i]] = newFollow[fields[i]];
             }
-        }
-        return null;
+
+            doc.save(function(err, doc) {
+                deferred.resolve(doc);
+            });
+        });
+        return deferred.promise;
     }
 
     function findFollowing(userId) {
-        var userFollowing = [];
-        for (var i in following) {
-            if (following[i].userId === userId) {
-                userFollowing.push(following[i]);
+        var deferred = q.defer();
+        FollowingModel.find({userId: userId}, function(err, following) {
+            if (err) {
+                deferred.resolve(err);
+            } else {
+                deferred.resolve(following);
             }
-        }
-        return userFollowing;
+        });
+        return deferred.promise;
     }
 };

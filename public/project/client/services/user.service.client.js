@@ -13,9 +13,20 @@
             createUser: createUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser,
-            register: register
+            register: register,
+            login: login,
+            logout: logout,
+            updateUserAdmin: updateUserAdmin
         };
         return factory;
+
+        function login(username, password) {
+            return $http.post("/api/project/login", {username: username, password: password});
+        }
+
+        function logout() {
+            return $http.post("/api/project/logout");
+        }
 
         function findUserByUsernameAndPassword(username, password) {
             return $http.get("/api/project/user?username=" + username + "&password=" + password);
@@ -26,7 +37,7 @@
         }
 
         function findAllUsers() {
-            return $http.get("/api/project/user");
+            return $http.get("/api/project/admin/user");
         }
 
         function createUser(user) {
@@ -34,11 +45,15 @@
         }
 
         function deleteUserById(userId) {
-            return $http.delete("/api/project/user/" + userId);
+            return $http.delete("/api/project/admin/user/" + userId);
         }
 
         function updateUser(userId, user) {
             return $http.put("/api/project/user/" + userId, user);
+        }
+
+        function updateUserAdmin(userId, user) {
+            return $http.put("/api/project/admin/user/" + userId, user);
         }
 
         function register(user) {

@@ -7,26 +7,34 @@ module.exports = function(app, FollowingModel) {
     app.delete('/api/project/following/:id', deleteFollowing);
 
     function createFollowing(req, res) {
-        var userId = parseInt(req.params.userId);
-        var newFollowing = FollowingModel.createFollowing(userId, req.body);
-        res.json(newFollowing);
+        FollowingModel.createFollowing(req.params.userId, req.body).then(
+            function(newFollowing) {
+                res.json(newFollowing);
+            }
+        );
     }
 
     function findFollowing(req, res) {
-        var userId = parseInt(req.params.userId);
-        var following = FollowingModel.findFollowing(userId);
-        res.json(following);
+        FollowingModel.findFollowing(req.params.userId).then(
+            function(following) {
+                res.json(following);
+            }
+        );
     }
 
     function updateFollowing(req, res) {
-        var followingId = parseInt(req.params.id);
-        var newFollowing = FollowingModel.updateFollowing(followingId, req.body);
-        res.json(newFollowing);
+        FollowingModel.updateFollowing(req.params.id, req.body).then(
+            function(newFollowing) {
+                res.json(newFollowing);
+            }
+        );
     }
 
     function deleteFollowing(req, res) {
-        var followingId = parseInt(req.params.id);
-        FollowingModel.deleteFollowing(followingId);
-        res.send(200);
+        FollowingModel.deleteFollowing(req.params.id).then(
+            function() {
+                res.send(200);
+            }
+        );
     }
 };

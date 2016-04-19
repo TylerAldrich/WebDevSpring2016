@@ -1,7 +1,11 @@
-var players = require("./player.mock.json");
+var q = require('q');
 
-module.exports = function() {
+module.exports = function(mongoose) {
     "use strict";
+
+    var PlayerSchema = require("./player.server.schema.js")(mongoose);
+    var PlayerModel = mongoose.model("PlayerModel", PlayerSchema);
+
     var api = {
         createPlayer: createPlayer,
         findPlayer: findPlayer,
@@ -12,49 +16,67 @@ module.exports = function() {
     return api;
 
     function createPlayer(player) {
-        player._id = (new Date).getTime();
-        players.push(player);
-        return player;
+        var deferred = q.defer();
+        PlayerModel.create(player,
+            function(err, doc) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(doc);
+                }
+            }
+        );
+        return deferred.promise;
     }
 
     function findPlayer(playerName) {
-        for (var i in players) {
-            if (players[i].playerName === playerName) {
-                return players[i];
+        var deferred = q.defer();
+        PlayerModel.findOne({playerName: playerName}, function(err, player) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(player);
             }
-        }
-        return null;
+        });
+        return deferred.promise;
     }
 
     function findAllPlayers(userId) {
-        var foundPlayers = [];
-
-        for (var i in players) {
-            if (players[i].userId === userId) {
-                foundPlayers.push(players[i]);
+        var deferred = q.defer();
+        PlayerModel.find({userId: userId}, function(err, players) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(players);
             }
-        }
-        return foundPlayers;
+        });
+        return deferred.promise;
     }
 
     function updatePlayer(playerId, player) {
-        for (var i in players) {
-            if (players[i]._id === playerId) {
-                players[i] = player;
-                return player;
+        var deferred = q.defer();
+        PlayerModel.findById(playerId, function(err, doc) {
+            var fields = Object.keys(player);
+            for (var i in fields) {
+                doc[fields[i]] = player[fields[i]];
             }
-        }
-        return null;
+
+            doc.save(function(err, doc) {
+                deferred.resolve(doc);
+            });
+        });
+        return deferred.promise;
     }
 
     function deletePlayer(playerId) {
-        var newPlayers = [];
-        for (var i in players) {
-            if (players[i]._id !== playerId) {
-                newPlayers.push(players[i]);
+        var deferred = q.defer();
+        PlayerModel.remove({_id: playerId}, function(err, status) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(status);
             }
-        }
-        players = newPlayers;
-        return players;
+        });
+        return deferred.promise;
     }
 };

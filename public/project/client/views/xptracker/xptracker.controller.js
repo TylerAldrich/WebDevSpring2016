@@ -4,7 +4,7 @@
         .module('XPTrackerApp')
         .controller("XPTrackerController", XPTrackerController);
 
-    function XPTrackerController($scope, PlayerService) {
+    function XPTrackerController($scope, $rootScope, PlayerService, UserService) {
         $scope.selectedIdx = null;
         getPlayers();
 
@@ -33,7 +33,7 @@
             player.ranged = $scope.ranged;
             player.magic = $scope.magic;
             player.prayer = $scope.prayer;
-            player.date = new Date($scope.date);
+            player.date = new Date();
 
             PlayerService.createPlayer(player).then(
                 function(res) {
@@ -45,6 +45,19 @@
                     console.log(error);
                 }
             );
+
+            if ($scope.user.rsAccounts.indexOf(player.playerName) === -1) {
+                $scope.user.rsAccounts.push(player.playerName);
+
+                UserService.updateUser($scope.user._id, $scope.user).then(
+                    function(newUser) {
+                        $rootScope.user = newUser;
+                    },
+                    function(error) {
+                        console.log(error);
+                    }
+                );
+            }
         };
 
         $scope.deletePlayer = function(idx) {
@@ -68,7 +81,6 @@
             $scope.magic = $scope.players[idx].magic;
             $scope.ranged = $scope.players[idx].ranged;
             $scope.prayer = $scope.players[idx].prayer;
-            $scope.date = $scope.players[idx].date;
         };
 
         $scope.updatePlayer = function() {
@@ -81,11 +93,11 @@
             player.ranged = $scope.ranged;
             player.magic = $scope.magic;
             player.prayer = $scope.prayer;
-            player.date = new Date($scope.date);
+            player.date = new Date();
 
             PlayerService.updatePlayer(player._id, player).then(
-                function(newPlayer) {
-                    $scope.players[$scope.selectedIdx] = newPlayer;
+                function() {
+                    getPlayers();
                 },
                 function(error) {
                     console.log(error);
